@@ -22,8 +22,13 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.google.ads.AdView;
+import com.google.ads.AdSize;
+import com.google.ads.AdRequest;
 
 public class MainActivity extends Activity {
 	
@@ -35,6 +40,25 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+        
+        
+        AdView adView = new AdView(this, AdSize.BANNER, "a150102bc1ee29b");
+
+        // Lookup your LinearLayout assuming it’s been given
+        // the attribute android:id="@+id/mainLayout"
+        LinearLayout layout = (LinearLayout) findViewById(R.id.linear);
+        
+        //Button button = new Button(this);
+        
+        //layout.addView(button);
+        
+        // Add the adView to it
+        layout.addView(adView);
+        
+        AdRequest adRequest = new AdRequest();
+        //adRequest.addTestDevice(AdRequest.TEST_EMULATOR);
+        
+        adView.loadAd(adRequest); 
         
         Task t = new Task();
 		t.execute("http://ifconfig.me/ip");
