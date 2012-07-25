@@ -14,16 +14,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_main" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".NextScreen"
-            android:label="@string/title_activity_next_screen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
