@@ -2,8 +2,9 @@
 
     <string name="app_name">Test002</string>
     <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>
+    <string name="refresh">Refresh</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_next_screen">NextScreen</string>
+    <string name="copy">Copy address</string>
 
 </resources>
