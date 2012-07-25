@@ -121,11 +121,13 @@ public class MainActivity extends Activity {
     }
     
     private class Task extends AsyncTask<String, Void, String> {
+    	
+    	AndroidHttpClient client;
 
 		@Override
 		protected String doInBackground(String... arg0) {
 			String url = arg0[0];
-			AndroidHttpClient client = AndroidHttpClient.newInstance("");
+			client = AndroidHttpClient.newInstance("");
 			String r = null; 
 			
 			try {
@@ -150,6 +152,7 @@ public class MainActivity extends Activity {
 			tv.setVisibility(View.VISIBLE);
 			tv.setText(result);
 			setIpResult(result);
+			client.close();
 		}
     	
     }
