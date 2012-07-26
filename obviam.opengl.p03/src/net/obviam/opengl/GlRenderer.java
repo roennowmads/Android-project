@@ -45,10 +45,10 @@ public class GlRenderer implements Renderer {
 				final float fx = (float)x*2;
 
 				float vertices[] = {
-						-1.0f+fx, -1.0f+fy,  0.0f,		// V1 - bottom left
-						-1.0f+fx,  1.0f+fy,  0.0f,		// V2 - top left
-						 1.0f+fx, -1.0f+fy,  0.0f,		// V3 - bottom right
-						 1.0f+fx,  1.0f+fy,  0.0f			// V4 - top right
+						-16.0f+fx,	-16.0f+fy,  0.0f,		// V1 - bottom left
+						-16.0f+fx,  -15.0f+fy,  0.0f,		// V2 - top left
+						-15.0f+fx,	-16.0f+fy,  0.0f,		// V3 - bottom right
+						-15.0f+fx,	-15.0f+fy,  0.0f	    // V4 - top right
 				};
 				
 				squares.add(new Square(R.drawable.android,vertices));
@@ -66,7 +66,7 @@ public class GlRenderer implements Renderer {
 		gl.glLoadIdentity();
 
 		// Drawing
-		gl.glTranslatef(0.0f, 0.0f, -100.0f);		// move 5 units INTO the screen
+		gl.glTranslatef(0.0f, 0.0f, -50.0f);		// move 5 units INTO the screen
 												// is the same as moving the camera 5 units away
 //		gl.glScalef(0.5f, 0.5f, 0.5f);			// scale the square to 50% 
 												// otherwise it will be too large
