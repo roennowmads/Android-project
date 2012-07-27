@@ -87,12 +87,15 @@ public class GlRenderer implements Renderer{
 
 		gl.glTranslatef(0f,0f, 48f * (float)Math.sin(Math.PI * ((angle % 360.0f)/180.0f)));
 		
+		
 		// Drawing
 		gl.glTranslatef(0.0f, 0.0f, -50.0f);		// move 5 units INTO the screen
 												// is the same as moving the camera 5 units away
 //		gl.glScalef(0.5f, 0.5f, 0.5f);			// scale the square to 50% 
 												// otherwise it will be too large
 		//square.draw(gl);						// Draw the triangle
+		
+		//gl.glTranslatef(-10.0f, 0.0f, 40.0f);
 		
 		for (Square s : squares) {
 			s.draw(gl);
@@ -122,16 +125,16 @@ public class GlRenderer implements Renderer{
 		// Load the texture for the square
 		//square.loadGLTexture(gl, this.context);
 		
-		for (Square s : squares) {
-			s.loadGLTexture(gl, this.context);
-		}
-		
 		gl.glEnable(GL10.GL_TEXTURE_2D);			//Enable Texture Mapping ( NEW )
 		gl.glShadeModel(GL10.GL_SMOOTH); 			//Enable Smooth Shading
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f); 	//Black Background
 		gl.glClearDepthf(1.0f); 					//Depth Buffer Setup
 		gl.glEnable(GL10.GL_DEPTH_TEST); 			//Enables Depth Testing
 		gl.glDepthFunc(GL10.GL_LEQUAL); 			//The Type Of Depth Testing To Do
+		
+		for (Square s : squares) {
+			s.loadGLTexture(gl, this.context);
+		}
 		
 		//Really Nice Perspective Calculations
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST); 

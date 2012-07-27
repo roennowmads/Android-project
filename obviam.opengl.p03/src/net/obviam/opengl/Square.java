@@ -3,6 +3,7 @@
  */
 package net.obviam.opengl;
 
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -52,44 +53,30 @@ public class Square {
 		this.textureId = textureId;
 		this.vertices = vertices;
 		
-		// a float has 4 bytes so we allocate for each coordinate 4 bytes
-		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
-		byteBuffer.order(ByteOrder.nativeOrder());
-		
-		// allocates the memory from the byte buffer
-		vertexBuffer = byteBuffer.asFloatBuffer();
-		
-		// fill the vertexBuffer with the vertices
+		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
+		byteBuf.order(ByteOrder.nativeOrder());
+		vertexBuffer = byteBuf.asFloatBuffer();
 		vertexBuffer.put(vertices);
-		
-		// set the cursor position to the beginning of the buffer
 		vertexBuffer.position(0);
 		
-		byteBuffer = ByteBuffer.allocateDirect(texture.length * 4);
-		byteBuffer.order(ByteOrder.nativeOrder());
-		textureBuffer = byteBuffer.asFloatBuffer();
+		byteBuf = ByteBuffer.allocateDirect(texture.length * 4);
+		byteBuf.order(ByteOrder.nativeOrder());
+		textureBuffer = byteBuf.asFloatBuffer();
 		textureBuffer.put(texture);
 		textureBuffer.position(0);
 	}
 	
 	
 	public Square() {
-		// a float has 4 bytes so we allocate for each coordinate 4 bytes
-		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
-		byteBuffer.order(ByteOrder.nativeOrder());
-		
-		// allocates the memory from the byte buffer
-		vertexBuffer = byteBuffer.asFloatBuffer();
-		
-		// fill the vertexBuffer with the vertices
+		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
+		byteBuf.order(ByteOrder.nativeOrder());
+		vertexBuffer = byteBuf.asFloatBuffer();
 		vertexBuffer.put(vertices);
-		
-		// set the cursor position to the beginning of the buffer
 		vertexBuffer.position(0);
 		
-		byteBuffer = ByteBuffer.allocateDirect(texture.length * 4);
-		byteBuffer.order(ByteOrder.nativeOrder());
-		textureBuffer = byteBuffer.asFloatBuffer();
+		byteBuf = ByteBuffer.allocateDirect(texture.length * 4);
+		byteBuf.order(ByteOrder.nativeOrder());
+		textureBuffer = byteBuf.asFloatBuffer();
 		textureBuffer.put(texture);
 		textureBuffer.position(0);
 	}
@@ -101,8 +88,11 @@ public class Square {
 	 */
 	public void loadGLTexture(GL10 gl, Context context) {
 		// loading texture
-		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
-				textureId);
+		InputStream is = context.getResources().openRawResource(textureId);
+		Bitmap bitmap = BitmapFactory.decodeStream(is);
+		
+		/*Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
+				R.drawable.android);*/
 
 		// generate one texture pointer
 		gl.glGenTextures(1, textures, 0);
@@ -113,8 +103,11 @@ public class Square {
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
 		
+		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE);
+		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
+		
 		// Generate mipmap???
-		Utils.generateMipmapsForBoundTexture(bitmap);
+		//Utils.generateMipmapsForBoundTexture(bitmap);
 
 		//Different possible texture parameters, e.g. GL10.GL_CLAMP_TO_EDGE
 //		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_REPEAT);
