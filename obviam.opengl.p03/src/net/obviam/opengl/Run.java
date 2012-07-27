@@ -3,13 +3,17 @@ package net.obviam.opengl;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class Run extends Activity {
+public class Run extends Activity implements OnTouchListener {
 	
 	/** The OpenGL view */
 	private GLSurfaceView glSurfaceView;
+	private GlRenderer renderer;
 	
     /** Called when the activity is first created. */
     @Override
@@ -28,7 +32,8 @@ public class Run extends Activity {
         
         // set our renderer to be the main renderer with
         // the current activity context
-        glSurfaceView.setRenderer(new GlRenderer(this));
+        renderer = new GlRenderer(this);
+        glSurfaceView.setRenderer(renderer);
         setContentView(glSurfaceView);
     }
 
@@ -48,6 +53,11 @@ public class Run extends Activity {
 	protected void onPause() {
 		super.onPause();
 		glSurfaceView.onPause();
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		return false;
 	}
 
 }

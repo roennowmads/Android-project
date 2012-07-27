@@ -11,47 +11,65 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
+import android.view.View;
+import android.view.View.OnTouchListener;
 
 /**
  * @author impaler
  *
  */
-public class GlRenderer implements Renderer {
-
+public class GlRenderer implements Renderer{
+    	
+	
 	private Square 		square;		// the square
 	private Context 	context;
 	
 	private ArrayList<Square> squares;
+	
+	float angle;
 	
 	/** Constructor to set the handed over context */
 	public GlRenderer(Context context) {
 		this.context = context;
 		
 		// initialise the square
-		this.square = new Square(R.drawable.android);
+		//this.square = new Square(R.drawable.android);
+		
+		
+		angle = 0.0f;
 		
 		// create a grid
-		createSquaresGrid(8,8);
+		createSquaresGrid(17,1);
+		
+		
 
 		
 	}
 	
 	public void createSquaresGrid(int sizeX,int sizeY) {
+		float globalTransX = 16f;
+		float globalTransY = 0f;
 		this.squares = new ArrayList<Square>();
+		int counter = 0;
 		for (int y=0; y<sizeY; y++) {
 			final float fy = (float)y*2; 
 			
 			for (int x=0; x<sizeX; x++) {
+				counter+=1;
 				final float fx = (float)x*2;
 
 				float vertices[] = {
-						-16.0f+fx,	-16.0f+fy,  0.0f,		// V1 - bottom left
-						-16.0f+fx,  -15.0f+fy,  0.0f,		// V2 - top left
-						-15.0f+fx,	-16.0f+fy,  0.0f,		// V3 - bottom right
-						-15.0f+fx,	-15.0f+fy,  0.0f	    // V4 - top right
+						-1.0f+fx-globalTransX,	-1.0f+fy-globalTransY,  0.0f,		// V1 - bottom left
+						-1.0f+fx-globalTransX,   1.0f+fy-globalTransY,  0.0f,		// V2 - top left
+						 1.0f+fx-globalTransX,	-1.0f+fy-globalTransY,  0.0f,		// V3 - bottom right
+						 1.0f+fx-globalTransX,	 1.0f+fy-globalTransY,  0.0f	    // V4 - top right
 				};
 				
-				squares.add(new Square(R.drawable.android,vertices));
+				int resID = context.getResources().getIdentifier("net.obviam.opengl:drawable/map_1024x1024_"+String.format("%04d",counter), null, null);
+				
+				squares.add(new Square(resID,vertices));
 			}
 		}		
 	}
@@ -63,14 +81,17 @@ public class GlRenderer implements Renderer {
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
 		// Reset the Modelview Matrix
+		angle = (angle+0.5f) % 360.0f;
 		gl.glLoadIdentity();
 
+		gl.glTranslatef(0f,0f, 48f * (float)Math.sin(Math.PI * ((angle % 360.0f)/180.0f)));
+		
 		// Drawing
 		gl.glTranslatef(0.0f, 0.0f, -50.0f);		// move 5 units INTO the screen
 												// is the same as moving the camera 5 units away
 //		gl.glScalef(0.5f, 0.5f, 0.5f);			// scale the square to 50% 
 												// otherwise it will be too large
-		square.draw(gl);						// Draw the triangle
+		//square.draw(gl);						// Draw the triangle
 		
 		for (Square s : squares) {
 			s.draw(gl);
@@ -98,7 +119,7 @@ public class GlRenderer implements Renderer {
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 		// Load the texture for the square
-		square.loadGLTexture(gl, this.context);
+		//square.loadGLTexture(gl, this.context);
 		
 		for (Square s : squares) {
 			s.loadGLTexture(gl, this.context);
