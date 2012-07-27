@@ -41,7 +41,7 @@ public class GlRenderer implements Renderer{
 		angle = 0.0f;
 		
 		// create a grid
-		createSquaresGrid(17,1);
+		createSquaresGrid(17,2);
 		
 		
 
@@ -54,12 +54,13 @@ public class GlRenderer implements Renderer{
 		this.squares = new ArrayList<Square>();
 		int counter = 0;
 		for (int y=0; y<sizeY; y++) {
-			final float fy = (float)y*2; 
+			final float fy = (float)y*2*-1; 
 			
 			for (int x=0; x<sizeX; x++) {
 				counter+=1;
 				final float fx = (float)x*2;
 
+				
 				float vertices[] = {
 						-1.0f+fx-globalTransX,	-1.0f+fy-globalTransY,  0.0f,		// V1 - bottom left
 						-1.0f+fx-globalTransX,   1.0f+fy-globalTransY,  0.0f,		// V2 - top left
