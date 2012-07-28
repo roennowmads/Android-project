@@ -20,11 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.google.ads.*;
 import com.tuxronnow.ip.R;
-import com.google.ads.AdView;
-import com.google.ads.AdSize;
-import com.google.ads.AdRequest;
 
 public class MainActivity extends Activity {
 	
@@ -75,7 +72,6 @@ public class MainActivity extends Activity {
         
         menu.findItem(R.id.refresh).setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
-			@Override
 			public boolean onMenuItemClick(MenuItem arg0) {
 				ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar1);
 				progress.setVisibility(View.VISIBLE);
@@ -88,11 +84,11 @@ public class MainActivity extends Activity {
 			}
     		
     	});
+        
         menu.findItem(R.id.copy).setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
 			@SuppressWarnings("deprecation")
 			@SuppressLint("NewApi")
-			@Override
 			public boolean onMenuItemClick(MenuItem item) {
 				String copiedIP = ipResult;
 				
