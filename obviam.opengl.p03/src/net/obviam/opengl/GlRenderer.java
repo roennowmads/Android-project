@@ -91,12 +91,12 @@ public class GlRenderer implements Renderer{
 		
 		
 		//Log.d("",Float.toHexString(touchControl.getmLastTouchX()));
-		gl.glTranslatef(touchControl.getmPosX()*0.1f,
-						touchControl.getmPosY()*-1.0f*0.1f,
-						5.0f*touchControl.getmScaleFactor());
+		gl.glTranslatef(touchControl.getmPosX()*0.05f,
+						touchControl.getmPosY()*-1.0f*0.05f,
+						50*touchControl.getmScaleFactor()*-1);
 		
 		// Drawing
-		gl.glTranslatef(0.0f, 0.0f, -50.0f);		// move 5 units INTO the screen
+		//gl.glTranslatef(0.0f, 0.0f, -50.0f);		// move 5 units INTO the screen
 												// is the same as moving the camera 5 units away
 //		gl.glScalef(0.5f, 0.5f, 0.5f);			// scale the square to 50% 
 												// otherwise it will be too large

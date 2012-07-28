@@ -65,6 +65,8 @@ public class TouchControl extends View {
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
+		mScaleDetector.onTouchEvent(ev);
+		
 	    final int action = ev.getAction();
 	    switch (action & MotionEvent.ACTION_MASK) {
 	    case MotionEvent.ACTION_DOWN: {
@@ -129,14 +131,23 @@ public class TouchControl extends View {
 	}
 
 	private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
-	    @Override
+		
+		
+	    public ScaleListener() {
+			super();
+		}
+
+		@Override
 	    public boolean onScale(ScaleGestureDetector detector) {	    
 	        mScaleFactor *= Math.max(0.1f, Math.min(detector.getScaleFactor(), 5.0f));
-	        
+	        Log.d("mScaleFactor", Float.toString(mScaleFactor));
+	        invalidate();
 	        return true;
 	    }
 
-	
+
+	    
+	    
 	}
 }
 

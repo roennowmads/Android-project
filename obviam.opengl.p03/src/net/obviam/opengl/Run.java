@@ -31,7 +31,6 @@ public class Run extends Activity {
 		//Control touch through touchControl
 		this.touchControl = new TouchControl(this);
 		
-		
         // Initiate the Open GL view and
         // create an instance with this activity
         glSurfaceView = new GLSurfaceView(this);
@@ -65,5 +64,7 @@ public class Run extends Activity {
 	public boolean onTouchEvent(MotionEvent ev) {
 		return this.touchControl.onTouchEvent(ev);
 	}
+	
+	
 
 }
