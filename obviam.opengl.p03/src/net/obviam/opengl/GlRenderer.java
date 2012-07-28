@@ -3,6 +3,7 @@
  */
 package net.obviam.opengl;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -11,6 +12,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -23,15 +25,15 @@ import android.view.View.OnTouchListener;
 public class GlRenderer implements Renderer{
     	
 	
-	private Square 		square;		// the square
-	private Context 	context;
-	
-	private ArrayList<Square> squares;
+	private Square 				square;		// the square
+	private Context 			context;
+	private TouchControl 		touchControl;
+	private ArrayList<Square>	squares;
 	
 	float angle;
 	
 	/** Constructor to set the handed over context */
-	public GlRenderer(Context context) {
+	public GlRenderer(Context context,TouchControl touchControl) {
 		this.context = context;
 		
 		// initialise the square
@@ -41,14 +43,14 @@ public class GlRenderer implements Renderer{
 		angle = 0.0f;
 		
 		// create a grid
-		createSquaresGrid(17,2);
-		
-		
+		createSquaresGrid(17,14);
+
+		this.touchControl = touchControl;
 
 		
-	}
+	}	
 	
-	public void createSquaresGrid(int sizeX,int sizeY) {
+	private void createSquaresGrid(int sizeX,int sizeY) {
 		float globalTransX = 16f;
 		float globalTransY = 0f;
 		this.squares = new ArrayList<Square>();
@@ -68,9 +70,9 @@ public class GlRenderer implements Renderer{
 						 1.0f+fx-globalTransX,	 1.0f+fy-globalTransY,  0.0f	    // V4 - top right
 				};
 				
-				int resID = context.getResources().getIdentifier("net.obviam.opengl:drawable/map_1024x1024_"+String.format("%04d",counter), null, null);
 				
-				squares.add(new Square(resID,vertices));
+				
+				squares.add(new Square(counter,vertices));
 			}
 		}		
 	}
@@ -85,8 +87,13 @@ public class GlRenderer implements Renderer{
 		angle = (angle+0.5f) % 360.0f;
 		gl.glLoadIdentity();
 
-		gl.glTranslatef(0f,0f, 48f * (float)Math.sin(Math.PI * ((angle % 360.0f)/180.0f)));
+		//gl.glTranslatef(0f,0f, 48f * (float)Math.sin(Math.PI * ((angle % 360.0f)/180.0f)));
 		
+		
+		//Log.d("",Float.toHexString(touchControl.getmLastTouchX()));
+		gl.glTranslatef(touchControl.getmPosX()*0.1f,
+						touchControl.getmPosY()*-1.0f*0.1f,
+						5.0f*touchControl.getmScaleFactor());
 		
 		// Drawing
 		gl.glTranslatef(0.0f, 0.0f, -50.0f);		// move 5 units INTO the screen
@@ -133,7 +140,13 @@ public class GlRenderer implements Renderer{
 		gl.glDepthFunc(GL10.GL_LEQUAL); 			//The Type Of Depth Testing To Do
 		
 		for (Square s : squares) {
-			s.loadGLTexture(gl, this.context);
+			try {
+				s.loadGLTexture(gl, this.context);
+			} catch (FileNotFoundException e) {
+				Log.d("s: "+s.getFormattedTileNumber(), e.getLocalizedMessage());
+				e.printStackTrace();
+				
+			}
 		}
 		
 		//Really Nice Perspective Calculations
