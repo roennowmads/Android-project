@@ -3,6 +3,9 @@
  */
 package net.obviam.opengl;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -14,6 +17,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
+import android.os.Environment;
 
 import net.obviam.opengl.Utils;
 /**
@@ -22,7 +26,7 @@ import net.obviam.opengl.Utils;
  */
 public class Square {
 	
-	private int textureId;
+	int tileNumber;
 	
 	private FloatBuffer vertexBuffer;	// buffer holding the vertices
 	private float vertices[] = {
@@ -44,13 +48,9 @@ public class Square {
 	/** The texture pointer */
 	private int[] textures = new int[1];
 
-	public Square(int textureId) {
-		this();
-		this.textureId = textureId;
-	}
-	
-	public Square(int textureId, final float vertices[]) {
-		this.textureId = textureId;
+
+	public Square(int tileNumber, final float vertices[]) {
+		this.tileNumber = tileNumber;
 		this.vertices = vertices;
 		
 		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
@@ -85,11 +85,16 @@ public class Square {
 	 * Load the texture for the square
 	 * @param gl
 	 * @param context
+	 * @throws FileNotFoundException 
 	 */
-	public void loadGLTexture(GL10 gl, Context context) {
+	public void loadGLTexture(GL10 gl, Context context) throws FileNotFoundException {
 		// loading texture
-		InputStream is = context.getResources().openRawResource(textureId);
+		//InputStream is = context.getResources().openRawResource(textureId);
+		
+		File f = new File(Environment.getExternalStorageDirectory()+"/dayzmap/256x256/map_"+getFormattedTileNumber()+".png");
+		InputStream is = new FileInputStream(f);
 		Bitmap bitmap = BitmapFactory.decodeStream(is);
+		
 		
 		/*Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
 				R.drawable.android);*/
@@ -107,7 +112,7 @@ public class Square {
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
 		
 		// Generate mipmap???
-		//Utils.generateMipmapsForBoundTexture(bitmap);
+		Utils.generateMipmapsForBoundTexture(bitmap);
 
 		//Different possible texture parameters, e.g. GL10.GL_CLAMP_TO_EDGE
 //		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_REPEAT);
@@ -144,4 +149,10 @@ public class Square {
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 	}
+	
+	public String getFormattedTileNumber() {
+		return String.format("%04d",this.tileNumber);
+	}
+	
+	
 }

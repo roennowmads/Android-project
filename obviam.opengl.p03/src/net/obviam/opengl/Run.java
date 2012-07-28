@@ -9,11 +9,12 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class Run extends Activity implements OnTouchListener {
+public class Run extends Activity {
 	
 	/** The OpenGL view */
 	private GLSurfaceView glSurfaceView;
 	private GlRenderer renderer;
+	private TouchControl touchControl;
 	
     /** Called when the activity is first created. */
     @Override
@@ -26,13 +27,18 @@ public class Run extends Activity implements OnTouchListener {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+		
+		//Control touch through touchControl
+		this.touchControl = new TouchControl(this);
+		
+		
         // Initiate the Open GL view and
         // create an instance with this activity
         glSurfaceView = new GLSurfaceView(this);
         
         // set our renderer to be the main renderer with
         // the current activity context
-        renderer = new GlRenderer(this);
+        renderer = new GlRenderer(this,touchControl);
         glSurfaceView.setRenderer(renderer);
         setContentView(glSurfaceView);
     }
@@ -56,8 +62,8 @@ public class Run extends Activity implements OnTouchListener {
 	}
 
 	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		return false;
+	public boolean onTouchEvent(MotionEvent ev) {
+		return this.touchControl.onTouchEvent(ev);
 	}
 
 }
