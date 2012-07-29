@@ -17,10 +17,10 @@ LOCAL_ALLOW_UNDEFINED_SYMBOLS=false
 LOCAL_MODULE    := ndk1  
 LOCAL_SRC_FILES := native.cpp
 
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/android/armv7-a-vfp/include
-LOCAL_SHARED_LIBRARY := ffmpeg-prebuilt
+#LOCAL_C_INCLUDES := $(LOCAL_PATH)/android/armv7-a-vfp/include
+#LOCAL_SHARED_LIBRARY := ffmpeg-prebuilt
 
-LOCAL_LDLIBS    := -llog -landroid -lEGL -lGLESv1_CM $(LOCAL_PATH)/android/armv7-a-vfp/libffmpeg.so
+LOCAL_LDLIBS    := -llog -landroid -lEGL -lGLESv1_CM #$(LOCAL_PATH)/android/armv7-a-vfp/libffmpeg.so
 LOCAL_CPP_FEATURES += exceptions
 
   

@@ -22,7 +22,7 @@
 
 extern "C" {
 	#include "capturescr.c"
-	#include "libavcodec/avcodec.h"
+	//#include "libavcodec/avcodec.h"
 }
 
 #include <EGL/egl.h>
@@ -32,7 +32,7 @@ extern "C" {
 	void Java_com_tuxronnow_ndktest002_MainActivity_memoryMap(JNIEnv * env, jobject obj);
 }
 
-#define PIXEL_COUNT (320*240)
+//#define PIXEL_COUNT (320*240)
 
 #define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "native-activity", __VA_ARGS__))
 
@@ -41,7 +41,7 @@ void Java_com_tuxronnow_ndktest002_MainActivity_memoryMap(JNIEnv * env, jobject 
 	save_screenshot();
 	LOGW("screen saved");
 
-	avcodec_init();
+	//avcodec_init();
 
 	//AVCodec *codec;
 	//AVCodecContext *c= NULL;

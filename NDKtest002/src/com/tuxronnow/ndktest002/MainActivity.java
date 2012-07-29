@@ -11,7 +11,7 @@ import android.view.Menu;
 public class MainActivity extends Activity {
 	
 	static {
-		System.loadLibrary("ffmpeg-prebuilt");
+		//System.loadLibrary("ffmpeg-prebuilt");
 		System.loadLibrary("ndk1");
 	}
 

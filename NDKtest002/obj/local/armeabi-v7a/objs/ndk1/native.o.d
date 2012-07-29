@@ -70,27 +70,6 @@ obj/local/armeabi-v7a/objs/ndk1/native.o: jni/native.cpp \
  /home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/time.h \
  /home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/linux/kd.h \
  jni/pixelflinger.h jni/format.h \
- jni/android/armv7-a-vfp/include/libavcodec/avcodec.h \
- jni/android/armv7-a-vfp/include/libavutil/samplefmt.h \
- jni/android/armv7-a-vfp/include/libavutil/avutil.h \
- jni/android/armv7-a-vfp/include/libavutil/common.h \
- /home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/ctype.h \
- /home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/inttypes.h \
- /home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/math.h \
- jni/android/armv7-a-vfp/include/libavutil/attributes.h \
- jni/android/armv7-a-vfp/include/libavutil/avconfig.h \
- jni/android/armv7-a-vfp/include/libavutil/mem.h \
- jni/android/armv7-a-vfp/include/libavutil/error.h \
- jni/android/armv7-a-vfp/include/libavutil/mathematics.h \
- jni/android/armv7-a-vfp/include/libavutil/rational.h \
- jni/android/armv7-a-vfp/include/libavutil/intfloat_readwrite.h \
- jni/android/armv7-a-vfp/include/libavutil/log.h \
- jni/android/armv7-a-vfp/include/libavutil/pixfmt.h \
- jni/android/armv7-a-vfp/include/libavutil/avutil.h \
- jni/android/armv7-a-vfp/include/libavutil/cpu.h \
- jni/android/armv7-a-vfp/include/libavutil/dict.h \
- jni/android/armv7-a-vfp/include/libavcodec/version.h \
- jni/android/armv7-a-vfp/include/libavutil/audioconvert.h \
  /home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/EGL/egl.h \
  /home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/EGL/eglplatform.h \
  /home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/KHR/khrplatform.h \
@@ -242,48 +221,6 @@ jni/capturescr.c:
 jni/pixelflinger.h:
 
 jni/format.h:
-
-jni/android/armv7-a-vfp/include/libavcodec/avcodec.h:
-
-jni/android/armv7-a-vfp/include/libavutil/samplefmt.h:
-
-jni/android/armv7-a-vfp/include/libavutil/avutil.h:
-
-jni/android/armv7-a-vfp/include/libavutil/common.h:
-
-/home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/ctype.h:
-
-/home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/inttypes.h:
-
-/home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/math.h:
-
-jni/android/armv7-a-vfp/include/libavutil/attributes.h:
-
-jni/android/armv7-a-vfp/include/libavutil/avconfig.h:
-
-jni/android/armv7-a-vfp/include/libavutil/mem.h:
-
-jni/android/armv7-a-vfp/include/libavutil/error.h:
-
-jni/android/armv7-a-vfp/include/libavutil/mathematics.h:
-
-jni/android/armv7-a-vfp/include/libavutil/rational.h:
-
-jni/android/armv7-a-vfp/include/libavutil/intfloat_readwrite.h:
-
-jni/android/armv7-a-vfp/include/libavutil/log.h:
-
-jni/android/armv7-a-vfp/include/libavutil/pixfmt.h:
-
-jni/android/armv7-a-vfp/include/libavutil/avutil.h:
-
-jni/android/armv7-a-vfp/include/libavutil/cpu.h:
-
-jni/android/armv7-a-vfp/include/libavutil/dict.h:
-
-jni/android/armv7-a-vfp/include/libavcodec/version.h:
-
-jni/android/armv7-a-vfp/include/libavutil/audioconvert.h:
 
 /home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/EGL/egl.h:
 
