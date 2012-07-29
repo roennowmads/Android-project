@@ -1,17 +1,9 @@
 package com.tuxronnow.dayz;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.opengl.GLSurfaceView;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.view.View.OnTouchListener;
-import android.view.Window;
-import android.view.WindowManager;
 
 
 public class TouchControl extends View {
@@ -26,8 +18,7 @@ public class TouchControl extends View {
 	
 
 
-	private Drawable mIcon;
-    private float mPosX;
+	private float mPosX;
     private float mPosY;
     
     private float mLastTouchX;
@@ -140,7 +131,7 @@ public class TouchControl extends View {
 		@Override
 	    public boolean onScale(ScaleGestureDetector detector) {	    
 	        mScaleFactor *= Math.max(0.1f, Math.min(detector.getScaleFactor(), 5.0f));
-	        Log.d("mScaleFactor", Float.toString(mScaleFactor));
+	        //Log.d("mScaleFactor", Float.toString(mScaleFactor));
 	        invalidate();
 	        return true;
 	    }
