@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	
@@ -24,19 +25,24 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
         
+        final Activity a = this;
+        
         try {
 			Process p = Runtime.getRuntime().exec("su");
 	        Button b = new Button(this);
 	        b.setWidth(50);
 	        b.setHeight(30);
 	        b.setOnClickListener(new OnClickListener() {
-	
+	        		
 				@Override
 				public void onClick(View arg0) {
 					helloLog("This will log to LogCat via the native call.");  
 					String result = getString(5,2);  
 					Log.v("Debug Output", "Result: "+result);  
 					result = getString(105, 1232);  
+					Toast t = Toast.makeText(a, result, Toast.LENGTH_SHORT);
+					t.show();					
+					
 					Log.v("Debug Output", "Result2: "+result);  
 					
 				}

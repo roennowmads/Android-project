@@ -1,2 +1,1 @@
-APP_STL := gnustl_shared
-APP_ABI := armeabi 
+APP_STL := stlport_static
