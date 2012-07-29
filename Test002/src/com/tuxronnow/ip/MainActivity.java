@@ -33,7 +33,6 @@ public class MainActivity extends Activity {
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         
-        
         AdView adView = new AdView(this, AdSize.BANNER, "a150102bc1ee29b");
 
         // Lookup your LinearLayout assuming it’s been given

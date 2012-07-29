@@ -5,6 +5,8 @@ include $(CLEAR_VARS)
 LOCAL_MODULE    := ndk1  
 LOCAL_SRC_FILES := native.cpp 
 LOCAL_LDLIBS    := -llog -landroid -lEGL -lGLESv1_CM 
+LOCAL_CPP_FEATURES += exceptions
+
   
 include $(BUILD_SHARED_LIBRARY)  
 
