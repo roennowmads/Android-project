@@ -1,6 +1,7 @@
 package com.tuxronnow.dayz;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -23,6 +24,9 @@ public class TouchControl extends View {
     
     private float mLastTouchX;
     private float mLastTouchY;
+    
+    private float mFocusX;
+    private float mFocusY;
 
     public TouchControl(Context context) {
 		super(context);
@@ -54,10 +58,21 @@ public class TouchControl extends View {
 		return mLastTouchY;
 	}
 	
+	public float getmFocusX() {
+		return mFocusX;
+	}
+
+	public float getmFocusY() {
+		return mFocusY;
+	}
+
+
+
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
-		mScaleDetector.onTouchEvent(ev);
-		
+	    // Let the ScaleGestureDetector inspect all events.
+	    mScaleDetector.onTouchEvent(ev);
+	    
 	    final int action = ev.getAction();
 	    switch (action & MotionEvent.ACTION_MASK) {
 	    case MotionEvent.ACTION_DOWN: {
@@ -66,28 +81,29 @@ public class TouchControl extends View {
 	        
 	        mLastTouchX = x;
 	        mLastTouchY = y;
-
-	        // Save the ID of this pointer
 	        mActivePointerId = ev.getPointerId(0);
 	        break;
 	    }
 	        
 	    case MotionEvent.ACTION_MOVE: {
-	        // Find the index of the active pointer and fetch its position
 	        final int pointerIndex = ev.findPointerIndex(mActivePointerId);
 	        final float x = ev.getX(pointerIndex);
 	        final float y = ev.getY(pointerIndex);
-	        
-	        final float dx = x - mLastTouchX;
-	        final float dy = y - mLastTouchY;
-	        
-	        mPosX += dx;
-	        mPosY += dy;
-	        
+
+	        // Only move if the ScaleGestureDetector isn't processing a gesture.
+	        if (!mScaleDetector.isInProgress()) {
+	            final float dx = x - mLastTouchX;
+	            final float dy = y - mLastTouchY;
+
+	            mPosX += dx;
+	            mPosY += dy;
+
+	            invalidate();
+	        }
+
 	        mLastTouchX = x;
 	        mLastTouchY = y;
-	        
-	        invalidate();
+
 	        break;
 	    }
 	        
@@ -102,8 +118,7 @@ public class TouchControl extends View {
 	    }
 	    
 	    case MotionEvent.ACTION_POINTER_UP: {
-	        // Extract the index of the pointer that left the touch sensor
-	        final int pointerIndex = (action & MotionEvent.ACTION_POINTER_INDEX_MASK) 
+	        final int pointerIndex = (ev.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) 
 	                >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
 	        final int pointerId = ev.getPointerId(pointerIndex);
 	        if (pointerId == mActivePointerId) {
@@ -121,6 +136,7 @@ public class TouchControl extends View {
 	    return true;
 	}
 
+
 	private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
 		
 		
@@ -130,8 +146,12 @@ public class TouchControl extends View {
 
 		@Override
 	    public boolean onScale(ScaleGestureDetector detector) {	    
-	        mScaleFactor *= Math.max(0.1f, Math.min(detector.getScaleFactor(), 5.0f));
+	        mScaleFactor *= Math.max(0.1f, Math.min(detector.getScaleFactor(), 5f));
 	        //Log.d("mScaleFactor", Float.toString(mScaleFactor));
+	        
+	        mFocusX = detector.getFocusX();
+	        mFocusY = detector.getFocusY();
+	        
 	        invalidate();
 	        return true;
 	    }

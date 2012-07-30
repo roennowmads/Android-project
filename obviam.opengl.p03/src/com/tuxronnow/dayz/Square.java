@@ -3,6 +3,8 @@
  */
 package com.tuxronnow.dayz;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -15,6 +17,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
+import android.os.Environment;
 import android.util.Log;
 
 import com.tuxronnow.dayz.Utils;
@@ -92,10 +95,10 @@ public class Square {
 		
 		//
 		try {
-			final int rid = context.getResources().getIdentifier("com.tuxronnow.dayz:drawable/map_"+getFormattedTileNumber(), null, null);
-			InputStream is = context.getResources().openRawResource(rid);
-			//File f = new File(Environment.getExternalStorageDirectory()+"/dayzmap/256x256/map_"+getFormattedTileNumber()+".png");
-			//InputStream is = new FileInputStream(f);
+			//final int rid = context.getResources().getIdentifier("com.tuxronnow.dayz:drawable/map_"+getFormattedTileNumber(), null, null);
+			//InputStream is = context.getResources().openRawResource(rid);
+			File f = new File(Environment.getExternalStorageDirectory()+"/dayzmap/256x256/map_"+getFormattedTileNumber()+".png");
+			InputStream is = new FileInputStream(f);
 			
 			Bitmap bitmap = BitmapFactory.decodeStream(is);
 			

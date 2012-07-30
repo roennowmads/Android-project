@@ -79,26 +79,24 @@ public class GlRenderer implements Renderer{
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
 		// Reset the Modelview Matrix
-		angle = (angle+0.5f) % 360.0f;
 		gl.glLoadIdentity();
-
+		
+		//angle = (angle+0.5f) % 360.0f;
 		//gl.glTranslatef(0f,0f, 48f * (float)Math.sin(Math.PI * ((angle % 360.0f)/180.0f)));
 		
+		gl.glTranslatef(0f,0f, -50f);
 		
-		//Log.d("",Float.toHexString(touchControl.getmLastTouchX()));
-		gl.glTranslatef(touchControl.getmPosX()*0.05f,
-						touchControl.getmPosY()*-1.0f*0.05f,
-						50*touchControl.getmScaleFactor()*-1);
+		final float mScaleFactor = touchControl.getmScaleFactor(); 	
+		final float transX = (touchControl.getmPosX())/250*mScaleFactor;
+		final float transY = (touchControl.getmPosY()/250*mScaleFactor*-1);
 		
-		// Drawing
-		//gl.glTranslatef(0.0f, 0.0f, -50.0f);		// move 5 units INTO the screen
-												// is the same as moving the camera 5 units away
-//		gl.glScalef(0.5f, 0.5f, 0.5f);			// scale the square to 50% 
-												// otherwise it will be too large
-		//square.draw(gl);						// Draw the triangle
+		final float deltaX = touchControl.getmFocusX()/100*mScaleFactor;
+		final float deltaY = touchControl.getmFocusY()/100*mScaleFactor;
 		
-		//gl.glTranslatef(-10.0f, 0.0f, 40.0f);
+		//final float deltaX = touchControl.getmFocus();				
 		
+		gl.glTranslatef(transX,transY ,mScaleFactor);
+				
 		for (Square s : squares) {
 			s.draw(gl);
 		}
