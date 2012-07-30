@@ -15,22 +15,6 @@
 
 #include "pixelflinger.h"
 
-typedef struct {
-     long filesize;
-     char reserved[2];
-     long headersize;
-     long infoSize;
-     long width;
-     long depth;
-     short biPlanes;
-     short bits;
-     long biCompression;
-     long biSizeImage;
-     long biXPelsPerMeter;
-     long biYPelsPerMeter;
-     long biClrUsed;
-     long biClrImportant;
-} BMPHEAD;
 
 //copyright text
 char cprght[255]="Copyright(C)2009 Motisan Radu , All rights reserved.\n radu.motisan@gmail.com";
@@ -110,7 +94,7 @@ static void dumpinfo(struct fb_fix_screeninfo *fi, struct fb_var_screeninfo *vi)
 }
 
 
-int save_screenshot() 
+Img save_screenshot(const char * filename)
 {
   //get screen capture
   gr_fb_fd = get_framebuffer(gr_framebuffer);
@@ -159,17 +143,21 @@ int save_screenshot()
         close(gr_fb_fd);
 	exit(2);
   };
+
+
   //save RGB 24 Bitmap
   int bytes_per_pixel = 3;
-  BMPHEAD bh;
-  memset ((char *)&bh,0,sizeof(BMPHEAD)); // sets everything to 0 
+  BMPHeader bh;
+  memset ((char *)&bh,0,sizeof(BMPHeader)); // sets everything to 0
   //bh.filesize  =   calculated size of your file (see below)
   //bh.reserved  = two zero bytes
+  bh.type1 = 'B';
+  bh.type2 = 'M';
   bh.headersize  = 54L;			// for 24 bit images
   bh.infoSize  =  0x28L;		// for 24 bit images
   bh.width     = w;			// width of image in pixels
-  bh.depth     = h;			// height of image in pixels
-  bh.biPlanes  =  1;			// for 24 bit images
+  bh.height    = h;			// height of image in pixels
+  bh.biPlanes  = 1;			// for 24 bit images
   bh.bits      = 8 * bytes_per_pixel;	// for 24 bit images
   bh.biCompression = 0L;		// no compression
   int bytesPerLine;
@@ -180,10 +168,18 @@ int save_screenshot()
     	bytesPerLine |= 0x0003;
     	++bytesPerLine;
   }
-  bh.filesize = bh.headersize + (long)bytesPerLine * bh.depth;
+  bh.filesize = bh.headersize + (long)bytesPerLine * bh.height;
+
+  Img img;
+  img.header = bh;
+  img.data = rgb24;
+
+  return img;
+
+  /*
   FILE * bmpfile;
   //printf("Bytes per line : %d\n", bytesPerLine);
-  bmpfile = fopen("/sdcard/screen.bmp", "wb");
+  bmpfile = fopen(filename, "wb");
   if (bmpfile == NULL)
   {
 	close(gr_fb_fd);
@@ -216,5 +212,5 @@ int save_screenshot()
   }
   fclose(bmpfile);
   close(gr_fb_fd);
-  return 0;
+  return 0;*/
 }

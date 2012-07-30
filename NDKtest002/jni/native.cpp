@@ -12,6 +12,8 @@
 #include <linux/fb.h>
 //#include "pixelflinger.h"
 
+#include <sstream>
+
 #ifdef __cplusplus
 #define __STDC_CONSTANT_MACROS
 #ifdef _STDINT_H
@@ -19,6 +21,30 @@
 #endif
 # include <stdint.h>
 #endif
+
+struct BMPHeader {
+	 char type1;
+	 char type2;
+     long filesize;
+     char reserved[2];
+     long headersize;
+     long infoSize;
+     long width;
+     long height;
+     short biPlanes;
+     short bits;
+     long biCompression;
+     long biSizeImage;
+     long biXPelsPerMeter;
+     long biYPelsPerMeter;
+     long biClrUsed;
+     long biClrImportant;
+};
+
+struct Img {
+	BMPHeader header;
+	unsigned char * data;
+};
 
 extern "C" {
 	#include "capturescr.c"
@@ -28,17 +54,47 @@ extern "C" {
 #include <EGL/egl.h>
 #include <GLES/gl.h>
 
-extern "C" {
-	void Java_com_tuxronnow_ndktest002_MainActivity_memoryMap(JNIEnv * env, jobject obj);
-}
-
 //#define PIXEL_COUNT (320*240)
 
 #define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "native-activity", __VA_ARGS__))
 
-  
-void Java_com_tuxronnow_ndktest002_MainActivity_memoryMap(JNIEnv * env, jobject obj)  {  
-	save_screenshot();
+/*void Java_com_tuxronnow_ndktest002_TimerT_memoryMap(JNIEnv * env, jobject obj, jstring filename)  {
+	const char *file = (env)->GetStringUTFChars(filename, NULL);
+	save_screenshot(file);
+	LOGW("screen saved");
+}*/
+
+extern "C" void Java_com_tuxronnow_ndktest002_MainActivity_test(JNIEnv * env, jobject obj) {
+	LOGW("test called");
+}
+
+extern "C" jbyteArray Java_com_tuxronnow_ndktest002_ScreenShotService_memoryMap(JNIEnv * env, jobject obj, jstring filename)  {
+	const char *file = (env)->GetStringUTFChars(filename, NULL);
+	Img screenshot = save_screenshot(file);
+
+	jbyteArray result;
+	int headerSize = sizeof(BMPHeader);
+	int dataSize = screenshot.header.width*screenshot.header.height*3;
+	int completeSize = headerSize+dataSize;
+	result = env->NewByteArray(completeSize);
+	if (result == NULL) {
+		LOGW("Out of memory");
+	    return NULL; /* out of memory error thrown */
+	}
+	//env->SetByteArrayRegion(result, 0, headerSize, reinterpret_cast<signed const char*>(&screenshot.header));
+	env->SetByteArrayRegion(result, 0, dataSize, reinterpret_cast<signed const char*>(&screenshot.data));
+
+	std::stringstream ss;
+	ss << "screen saved " << screenshot.header.width << " " << screenshot.header.height;
+	std::string output = ss.str();
+
+	LOGW(output.c_str());
+
+	return result;
+}
+extern "C" void Java_com_tuxronnow_ndktest002_MainActivity_memoryMap(JNIEnv * env, jobject obj, jstring filename)  {
+	const char *file = (env)->GetStringUTFChars(filename, NULL);
+	Img screenshot = save_screenshot(file);
 	LOGW("screen saved");
 
 	//avcodec_init();
@@ -86,9 +142,9 @@ void Java_com_tuxronnow_ndktest002_MainActivity_memoryMap(JNIEnv * env, jobject 
 		fb->format = GGL_PIXEL_FORMAT_RGB_565;
 	}*/
 
-}  
+}
 
-void Java_com_tuxronnow_ndktest002_MainActivity_getString(JNIEnv * env, jobject obj, jint value1, jint value2)  {  
+extern "C" void Java_com_tuxronnow_ndktest002_MainActivity_getString(JNIEnv * env, jobject obj, jint value1, jint value2)  {
 
 }  
 

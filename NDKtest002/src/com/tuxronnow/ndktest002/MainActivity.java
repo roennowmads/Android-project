@@ -1,12 +1,12 @@
 package com.tuxronnow.ndktest002;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 public class MainActivity extends Activity {
 	
@@ -15,44 +15,49 @@ public class MainActivity extends Activity {
 		System.loadLibrary("ndk1");
 	}
 
-	private native void memoryMap(); 
+	//private native void memoryMap(String filename); 
+	//private native void test(); 
+	//private native void getString(int value1, int value2); 
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        String[] chCom = {"su", "-c", "chmod 777 /dev/graphics/fb0"};
-        try {
-			executeRootProcess(chCom);
-			memoryMap();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }
-    
-    private void executeRootProcess(String[] command) throws IOException {
-        Process p = Runtime.getRuntime().exec(command);
+        setupButtonListeners();
         
-        DataOutputStream os = new DataOutputStream(p.getOutputStream());  
-        os.close();
+        //test();
+		//getString(1,1);
+		
+		//memoryMap("/sdcard/screenshots/screen" + 0 + ".bmp");
         
-        try {
-			p.waitFor();
-			if (p.exitValue() != 255) 
-	            Log.e("cat", "pass");
-			else 
-	            Log.e("cat", "fail");
-			
-        } catch (InterruptedException e) {
-			e.printStackTrace();
-		} 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
+    }
+    
+    private void setupButtonListeners() {
+    	Button buttonStart = (Button) findViewById(R.id.buttonstart);
+        Button buttonStop = (Button) findViewById(R.id.buttonstop);
+        
+        final Activity thisAct = this;
+        
+        buttonStart.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//memoryMap("/sdcard/screen" + 0 + ".bmp");
+				startService(new Intent(thisAct, ScreenShotService.class));
+			}
+        });
+        
+        buttonStop.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				stopService(new Intent(thisAct, ScreenShotService.class));
+			}
+        });
     }
 }

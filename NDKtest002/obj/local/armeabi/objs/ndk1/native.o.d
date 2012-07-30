@@ -66,8 +66,8 @@ obj/local/armeabi/objs/ndk1/native.o: jni/native.cpp \
  /home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/linux/capability.h \
  /home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/pathconf.h \
  /home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/linux/fb.h \
+ /home/mads/android-ndks/android-ndk-r8b/sources/cxx-stl/gnu-libstdc++/4.6/include/sstream \
  jni/capturescr.c \
- /home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/time.h \
  /home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/linux/kd.h \
  jni/pixelflinger.h jni/format.h \
  /home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/EGL/egl.h \
@@ -212,9 +212,9 @@ obj/local/armeabi/objs/ndk1/native.o: jni/native.cpp \
 
 /home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/linux/fb.h:
 
-jni/capturescr.c:
+/home/mads/android-ndks/android-ndk-r8b/sources/cxx-stl/gnu-libstdc++/4.6/include/sstream:
 
-/home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/time.h:
+jni/capturescr.c:
 
 /home/mads/android-ndks/android-ndk-r8b/platforms/android-14/arch-arm/usr/include/linux/kd.h:
 
