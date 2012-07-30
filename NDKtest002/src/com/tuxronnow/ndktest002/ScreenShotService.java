@@ -48,7 +48,7 @@ public class ScreenShotService extends Service {
 		
 		BitmapFactory.Options opt = new BitmapFactory.Options();
 		//opt.inDither = true;
-		opt.inPreferredConfig = Bitmap.Config.RGB_565;
+		opt.inPreferredConfig = Bitmap.Config.RGB_565; 
 		
 		Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, 0, opt);
 		

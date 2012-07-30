@@ -22,9 +22,11 @@
 # include <stdint.h>
 #endif
 
+#define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "native-activity", __VA_ARGS__))
+
 struct BMPHeader {
-	 char type1;
-	 char type2;
+     char type1;
+     char type2;
      long filesize;
      char reserved[2];
      long headersize;
@@ -56,8 +58,6 @@ extern "C" {
 
 //#define PIXEL_COUNT (320*240)
 
-#define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "native-activity", __VA_ARGS__))
-
 /*void Java_com_tuxronnow_ndktest002_TimerT_memoryMap(JNIEnv * env, jobject obj, jstring filename)  {
 	const char *file = (env)->GetStringUTFChars(filename, NULL);
 	save_screenshot(file);
@@ -73,16 +73,82 @@ extern "C" jbyteArray Java_com_tuxronnow_ndktest002_ScreenShotService_memoryMap(
 	Img screenshot = save_screenshot(file);
 
 	jbyteArray result;
-	int headerSize = sizeof(BMPHeader);
-	int dataSize = screenshot.header.width*screenshot.header.height*3;
-	int completeSize = headerSize+dataSize;
+	int headerSize = screenshot.header.headersize;
+	int completeSize = screenshot.header.filesize;
 	result = env->NewByteArray(completeSize);
 	if (result == NULL) {
 		LOGW("Out of memory");
 	    return NULL; /* out of memory error thrown */
 	}
-	//env->SetByteArrayRegion(result, 0, headerSize, reinterpret_cast<signed const char*>(&screenshot.header));
-	env->SetByteArrayRegion(result, 0, dataSize, reinterpret_cast<signed const char*>(&screenshot.data));
+
+	//LOGW(reinterpret_cast<const char*>(screenshot.data));
+
+	char head[sizeof(char)*56];
+
+	char * charIte = head;
+	
+	charIte = &screenshot.header.type1;
+	/*charIte++;
+	charIte = &screenshot.header.type2;
+	charIte++;
+	long * longIte = (long *) charIte;
+	longIte = &screenshot.header.filesize;
+	longIte++;
+	charIte = (char*) longIte;
+	*charIte = 0;
+	charIte++;
+	*charIte = 0;
+	charIte++;
+	longIte = (long *) charIte;
+	longIte = &screenshot.header.headersize;
+	longIte++;
+	longIte = &screenshot.header.infoSize;
+	longIte++;
+	longIte = &screenshot.header.width;
+	longIte++;
+	longIte = &screenshot.header.height;
+	longIte++;
+	short * shortIte = (short *) longIte;
+	shortIte = &screenshot.header.biPlanes;
+	shortIte++;
+	shortIte = &screenshot.header.bits;
+	shortIte++;
+	longIte = (long *) shortIte;
+	longIte = &screenshot.header.biCompression;
+	longIte++;
+	longIte = &screenshot.header.biSizeImage;
+	longIte++;
+	longIte = &screenshot.header.biXPelsPerMeter;
+	longIte++;
+	longIte = &screenshot.header.biYPelsPerMeter;
+	longIte++;
+	longIte = &screenshot.header.biClrUsed;
+	longIte++;
+	longIte = &screenshot.header.biClrImportant;
+	longIte++;*/
+
+	jbyte finalhead[sizeof(char)*56];
+
+	for (int i = 0; i<headerSize; i++) {
+		*(finalhead+i) = *(charIte+i);
+	}
+
+	jbyte finaldata[completeSize-headerSize];
+	for (int i = 0; i<headerSize; i++) {
+		*(finaldata+i) = *(screenshot.data+i);
+	}
+
+
+	std::stringstream ss2;
+	for (int i = 0; i<headerSize; i++) {
+		ss2 << *(finaldata+i);
+	}
+	//ss2 << *finalhead;
+	LOGW("Hello?");
+	LOGW(ss2.str().c_str());
+
+	env->SetByteArrayRegion(result, 0, headerSize, finalhead);
+	//env->SetByteArrayRegion(result, headerSize+1, completeSize, reinterpret_cast<signed const char*>(&screenshot.data));
 
 	std::stringstream ss;
 	ss << "screen saved " << screenshot.header.width << " " << screenshot.header.height;

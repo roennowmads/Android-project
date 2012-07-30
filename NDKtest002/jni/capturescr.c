@@ -174,6 +174,13 @@ Img save_screenshot(const char * filename)
   img.header = bh;
   img.data = rgb24;
 
+  char * p = (char *) bh.type1;
+  std::stringstream ss3;
+  for (int i = 0; i<bh.headersize; i++) {
+  	ss3 << *(p+i);
+  }
+  LOGW(ss3.str().c_str());
+
   return img;
 
   /*
