@@ -46,28 +46,31 @@ public class GlRenderer implements Renderer{
 	}	
 	
 	private void createSquaresGrid(int sizeX,int sizeY) {
-		float globalTransX = 16f;
-		float globalTransY = 0f;
+		float globalTransX = 8f;
+		float globalTransY = -8f;
 		this.squares = new ArrayList<Square>();
 		int counter = 0;
 		for (int y=0; y<sizeY; y++) {
-			final float fy = (float)y*2*-1; 
+			final float fy = (float)(y+1)*2*-1; 
 			
 			for (int x=0; x<sizeX; x++) {
 				counter+=1;
-				final float fx = (float)x*2;
+				final float fx = (float)(x+1)*2;
 
+				if (!((x+1) == sizeX)) {
+					float vertices[] = {
+							-1.0f+fx-globalTransX,	-1.0f+fy-globalTransY,  0.0f,		// V1 - bottom left
+							-1.0f+fx-globalTransX,   1.0f+fy-globalTransY,  0.0f,		// V2 - top left
+							 1.0f+fx-globalTransX,	-1.0f+fy-globalTransY,  0.0f,		// V3 - bottom right
+							 1.0f+fx-globalTransX,	 1.0f+fy-globalTransY,  0.0f	    // V4 - top right
+					};
+					
+					
+					
+					squares.add(new Square(counter,vertices));					
+				}
 				
-				float vertices[] = {
-						-1.0f+fx-globalTransX,	-1.0f+fy-globalTransY,  0.0f,		// V1 - bottom left
-						-1.0f+fx-globalTransX,   1.0f+fy-globalTransY,  0.0f,		// V2 - top left
-						 1.0f+fx-globalTransX,	-1.0f+fy-globalTransY,  0.0f,		// V3 - bottom right
-						 1.0f+fx-globalTransX,	 1.0f+fy-globalTransY,  0.0f	    // V4 - top right
-				};
-				
-				
-				
-				squares.add(new Square(counter,vertices));
+
 			}
 		}		
 	}
@@ -77,29 +80,33 @@ public class GlRenderer implements Renderer{
 	public void onDrawFrame(GL10 gl) {
 		// clear Screen and Depth Buffer
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
-
 		// Reset the Modelview Matrix
 		gl.glLoadIdentity();
-		
+
 		//angle = (angle+0.5f) % 360.0f;
 		//gl.glTranslatef(0f,0f, 48f * (float)Math.sin(Math.PI * ((angle % 360.0f)/180.0f)));
 		
-		gl.glTranslatef(0f,0f, -50f);
+		gl.glTranslatef(0f,0f,-25f);
 		
 		final float mScaleFactor = touchControl.getmScaleFactor(); 	
-		final float transX = (touchControl.getmPosX())/250*mScaleFactor;
-		final float transY = (touchControl.getmPosY()/250*mScaleFactor*-1);
+		final float transX = (touchControl.getmPosX())/100*mScaleFactor;
+		final float transY = (touchControl.getmPosY()/100*mScaleFactor*-1);
 		
 		final float deltaX = touchControl.getmFocusX()/100*mScaleFactor;
 		final float deltaY = touchControl.getmFocusY()/100*mScaleFactor;
 		
 		//final float deltaX = touchControl.getmFocus();				
 		
-		gl.glTranslatef(transX,transY ,mScaleFactor);
+		gl.glTranslatef(transX,transY ,0f);
+		
+		
+		//Log.d("mScaleFactor", Float.toString(mScaleFactor));
+		gl.glScalef(mScaleFactor,mScaleFactor,0f);
 				
 		for (Square s : squares) {
 			s.draw(gl);
 		}
+
 		
 	}
 
